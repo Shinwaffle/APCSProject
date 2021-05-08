@@ -19,8 +19,12 @@ public class Buttons{
 	private static final JPanel SPanel = new JPanel(); //special, ?!>< etc..
 	private static final JPanel NPanel = new JPanel(); //numbers
 	private static final JPanel FPanel = new JPanel(); //functional, "Set", "Unlock"
-	
-	private static final String[] functions = new String[]{"Clear", "Cycle", "Help", "Settings", "Lock", "Unlock", "Set"};
+
+	/**
+	 * when calling getComponent(int n), it follows this list for indices
+	 */
+	private static final String[] functions = new String[]
+			{"Clear", "Cycle", "Help", "Settings", "Lock", "Unlock", "Set"};
 
 	private Buttons() {
 		//usable ascii characters range
@@ -40,6 +44,9 @@ public class Buttons{
 		
 		for (int i = 0; i < functions.length; i++) {
 			FPanel.add(createButton(functions[i]));
+			if (i == 4 || i == 5) {
+				FPanel.getComponent(i).setEnabled(false);
+			}
 		}
 
 		UCPanel.setName("UCPanel");
@@ -64,6 +71,7 @@ public class Buttons{
 		JButton button = new JButton(name);
 		button.setName(name);
 		button.addActionListener(new ButtonListener());
+
 		return button;
 	}
 

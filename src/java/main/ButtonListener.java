@@ -11,7 +11,7 @@ public class ButtonListener extends JFrame implements ActionListener {
 		String eventName = e.getActionCommand();
 
 		if (eventName.length() == 1) {
-			window.setTextField(eventName);
+			window.addToTextField(eventName);
 		}
 		if (eventName.equals("Cycle")) {
 			window.cyclePanels();
@@ -20,13 +20,13 @@ public class ButtonListener extends JFrame implements ActionListener {
 			window.clearTextField();
 		}
 		if(eventName.equals("Set")){
-			/*
-			panel2.remove(button_lock);
-			validate();
-			panel2.add(test);
-			validate();
-			*/
-
+			window.setSecret();
+		}
+		if (eventName.equals("Lock")) {
+			window.setLocked();
+		}
+		if (eventName.equals("Unlock")) {
+			window.setUnlocked();
 		}
 	}
 }
