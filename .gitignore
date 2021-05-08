@@ -4,3 +4,8 @@
 # Exclude IntelliJ generated files
 .idea
 *.iml
+
+# Exclude any artifact stuff
+META-INF
+*.MF
+*.jar
