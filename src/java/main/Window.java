@@ -7,17 +7,20 @@ public class Window extends JFrame {
 
 	public static Window window;
 	private static final long serialVersionUID = 1L;
-	private final int WINDOW_WIDTH = 400;  // Width
-	private final int WINDOW_HEIGHT = 420; // Height
+	private final int WINDOW_WIDTH = 520;  // Width
+	private final int WINDOW_HEIGHT = 430; // Height
 
-	private JTextField textbox;
-	private JPanel inputPadPanel, functionPadPanel, inputPanel;
-	private JLabel info;
+	private final JTextField textbox;
+	private JPanel inputPadPanel;
+	private final JLabel info;
+
+	private JPanel util;
+	private JPanel mechanism;
+	private JPanel set;
 	
 	private Buttons buttons = Buttons.getInstance();
 	private String Secret = "";
 	private boolean isSet = false;
-	private boolean isLocked = false;
 
 
 	/**
@@ -30,18 +33,46 @@ public class Window extends JFrame {
 		setBackground(Color.black);
 		setResizable(false);
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(4, 1));
 
 		inputPadPanel = buttons.getUCPanel();
-		functionPadPanel = buttons.getFPanel();
-		inputPanel = new JPanel();
+		JPanel functionPadPanel = buttons.getFPanel();
+		JPanel inputPanel = new JPanel();
+		JPanel information = new JPanel();
 
-		textbox = new JTextField(33);
-		info = new JLabel("Eep! S-Set a code!");
+		/*
+		 * Component does not have setEnabled(boolean), JPanel does
+		 * Also, we are guaranteed for these to be JPanels
+		 * unless the creation of FPanel in Buttons is changed
+		 */
+		util = (JPanel) functionPadPanel.getComponent(0);
+		mechanism = (JPanel) functionPadPanel.getComponent(1);
+		set = (JPanel) functionPadPanel.getComponent(2);
+
+		util.getComponent(0).setEnabled(false);
+		util.getComponent(1).setEnabled(false);
+
+		mechanism.getComponent(0).setEnabled(false);
+		mechanism.getComponent(1).setEnabled(false);
+
+		textbox = new JTextField(40);
+		info = new JLabel("Eep! Set a code!");
 		inputPanel.add(new JPanel().add(info));
 		inputPanel.add(textbox);
+		/*
+			this looks horrible but I don't feel like messing with layout managers
+		 */
+		JLabel title = new JLabel(
+				"                                    Combination Lock by Hubert Mazur                             "
+		);
+		JLabel version = new JLabel(
+				"                                            Version 1.0                                          "
+		);
+		information.add(title);
+		information.add(version);
 
+		add(information);
 		add(inputPanel);
 		add(functionPadPanel);
 		add(inputPadPanel);
@@ -49,47 +80,47 @@ public class Window extends JFrame {
 		setVisible(true);
 	}
 
-	public void clearTextField() {
-		textbox.setText("");
-	}
-
 	public void setSecret() {
+		if (textbox.getText().isEmpty()) {
+			info.setText("Enter a code you dummy!");
+			return;
+		}
+
 		if (textbox.getText().length() != 3) {
 			info.setText("Code must be 3 characters long!");
 			return;
 		}
 
-		if (isLocked) {
-			info.setText("Cannot set a code when locked!");
-			return;
-		}
 		if (isSet) {
 		    info.setText("Replaced code with new one!");
         }
+
 		isSet = true;
 		Secret = textbox.getText();
         info.setText("New code set!");
-		functionPadPanel.getComponent(4).setEnabled(true);
+        clearInfoTextField();
+		mechanism.getComponent(0).setEnabled(true);
 	}
 
 	public void setLocked() {
 	    info.setText("Enter code");
 	    textbox.setText("");
-        functionPadPanel.getComponent(4).setEnabled(false);
-        functionPadPanel.getComponent(5).setEnabled(true);
-        functionPadPanel.getComponent(6).setEnabled(false);
+        mechanism.getComponent(0).setEnabled(false);
+		mechanism.getComponent(1).setEnabled(true);
+        set.getComponent(1).setEnabled(false);
 	}
 
 	public void setUnlocked() {
 	    if (textbox.getText().equals(Secret)) {
-            functionPadPanel.getComponent(4).setEnabled(true);
-            functionPadPanel.getComponent(5).setEnabled(false);
-            functionPadPanel.getComponent(6).setEnabled(true);
+            mechanism.getComponent(0).setEnabled(true);
+            mechanism.getComponent(1).setEnabled(false);
+            set.getComponent(1).setEnabled(true);
             info.setText("Welcome!");
         } else {
 	        info.setText("Incorrect code!");
         }
     }
+
 	/**
 	 * used by ButtonListener to signal the window to
 	 * go to the next panel of characters
@@ -129,6 +160,10 @@ public class Window extends JFrame {
 		if (textbox.getText().length() < 3) {
 			textbox.setText(textbox.getText() + character);
 		}
+	}
+
+	public void clearInfoTextField() {
+		textbox.setText("");
 	}
 
 	/**

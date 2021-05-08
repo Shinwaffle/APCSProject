@@ -17,7 +17,7 @@ public class ButtonListener extends JFrame implements ActionListener {
 			window.cyclePanels();
 		}
 		if (eventName.equals("Clear")) {
-			window.clearTextField();
+			window.clearInfoTextField();
 		}
 		if(eventName.equals("Set")){
 			window.setSecret();
