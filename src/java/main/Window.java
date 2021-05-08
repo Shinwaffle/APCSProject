@@ -93,6 +93,7 @@ public class Window extends JFrame {
 
         if (isSet) {
             info.setText("Replaced code with new one!");
+            return;
         }
 
         isSet = true;
@@ -112,6 +113,7 @@ public class Window extends JFrame {
 
     public void setUnlocked() {
         if (textbox.getText().equals(Secret)) {
+            clearInfoTextField();
             mechanism.getComponent(0).setEnabled(true);
             mechanism.getComponent(1).setEnabled(false);
             set.getComponent(1).setEnabled(true);
