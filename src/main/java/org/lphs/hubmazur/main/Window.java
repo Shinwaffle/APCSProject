@@ -18,65 +18,68 @@ public class Window extends JFrame {
 	private Buttons buttons = Buttons.getInstance();
 
 	/**
-	 *  Constructor
+	 * The window itself
 	 */
-
 	private Window(){
-	
-		/*
-		 * TODO:
-		 * update jlabel dynamically
-		 * insert the button input into the textfield
-		 * 
-		 */
 
-		// Set the title bar text.
 		super("Combination Lock");
-		//user won't be able to make window look weird
+
 		setResizable(false);
-		// set initial values
-
-		// Set the size of the window.
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		// Specify an action for the close button.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Add a GridLayout manager to the content pane.
 		setLayout(new GridLayout(3, 1));
 
-		textbox = new JTextField(33);
-		info = new JLabel("Eep!");
-
-		// Create 3 panels.
 		panel1 = buttons.getUCPanel();
 		panel2 = buttons.getFPanel();
 		panel3 = new JPanel();
 
-		// Add the buttons to the panels.
-
+		textbox = new JTextField(33);
+		info = new JLabel("Eep!");
 		panel3.add(new JPanel().add(info));
 		panel3.add(textbox);
-		// Add the panels to the content pane.
-		add(panel1); // Goes into row 1, column 1
-		add(panel2); // Goes into row 2, column 1
-		add(panel3);
 
-		// Display the window.
+		add(panel3);
+		add(panel2);
+		add(panel1);
+
 		setVisible(true);
 	}
 
+	/**
+	 * used by ButtonListener to signal the window to
+	 * go to the next panel of characters
+	 */
 	public void cyclePanels() {
 		String name = panel1.getName();
 
 		if (name.equals("UCPanel")) {
-			remove(panel1);
-			validate();
-			panel1 = buttons.getLCPanel();
-			validate();
+			replacePanels("LCPanel");
+		}
+		if (name.equals("LCPanel")) {
+			replacePanels("SPanel");
+		}
+		if (name.equals("SPanel")) {
+			replacePanels("NPanel");
+		}
+		if (name.equals("NPanel")) {
+			replacePanels("UCPanel");
 		}
 	}
-	
+
+	/**
+	 * helper function for cyclePanels to reduce verbosity
+	 * @param replacement name of the panel
+	 */
+	private void replacePanels(String replacement) {
+		panel1.setVisible(false);
+		remove(panel1);
+		validate();
+		panel1 = buttons.getPanel(replacement);
+		add(panel1);
+		validate();
+		panel1.setVisible(true);
+	}
+
 	public void setTextField(String character) {
 		if (textbox.getText().length() >= 3) return; 
 		textbox.setText(textbox.getText() + character);
