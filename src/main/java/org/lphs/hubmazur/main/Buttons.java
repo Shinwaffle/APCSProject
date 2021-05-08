@@ -20,7 +20,7 @@ public class Buttons{
 	private static final JPanel NPanel = new JPanel(); //numbers
 	private static final JPanel FPanel = new JPanel(); //functional, "Set", "Unlock"
 	
-	private static final String[] functions = new String[]{"Cycle", "Help", "Settings", "Lock", "Unlock", "Set"};
+	private static final String[] functions = new String[]{"Clear", "Cycle", "Help", "Settings", "Lock", "Unlock", "Set"};
 
 	private Buttons() {
 		//usable ascii characters range

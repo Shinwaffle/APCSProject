@@ -45,6 +45,10 @@ public class Window extends JFrame {
 		setVisible(true);
 	}
 
+	public void clearTextField() {
+		textbox.setText("");
+	}
+
 	/**
 	 * used by ButtonListener to signal the window to
 	 * go to the next panel of characters
