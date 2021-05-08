@@ -1,23 +1,24 @@
 package main;
 
-import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import main.Main;
 
 public class ButtonListener extends JFrame implements ActionListener{
+
+	private static Window window = null;
 	public void actionPerformed(ActionEvent e)
 	{
-
+		window = Window.window;
 		String eventName = e.getActionCommand();
 		System.out.println("I see a: "+eventName);
 		if (eventName.length() == 1) {
-			Main.getInstance().setTextField(eventName);
-			
+			window.setTextField(eventName);
 		}
-		if(eventName == "Set"){
-			/**
+		if (eventName.equals("Cycle")) {
+			window.cyclePanels();
+		}
+		if(eventName.equals("Set")){
+			/*
 			panel2.remove(button_lock);
 			validate();
 			panel2.add(test);

@@ -1,28 +1,25 @@
 package main;
 
-import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 import java.util.regex.*;
 
 /**
  * 
  * @author hubmazur
  * 
- * Singleton class for returning panels with buttons on them alongside logic.
- * Also a factory of panels? I guess?
+ * Singleton class for returning panels with buttons alongside logic
  */
 public class Buttons{
 
-	private static Buttons buttons = new Buttons();
+	private static Buttons buttons = null;
 	
-	private JPanel UCPanel = new JPanel(); //upper-case
-	private JPanel LCPanel = new JPanel(); //lower-case
-	private JPanel SPanel = new JPanel(); //special, ?!>< etc..
-	private JPanel NPanel = new JPanel(); //numbers
-	private JPanel FPanel = new JPanel(); //functional, "Set", "Unlock"
+	private static final JPanel UCPanel = new JPanel(); //upper-case
+	private static final JPanel LCPanel = new JPanel(); //lower-case
+	private static final JPanel SPanel = new JPanel(); //special, ?!>< etc..
+	private static final JPanel NPanel = new JPanel(); //numbers
+	private static final JPanel FPanel = new JPanel(); //functional, "Set", "Unlock"
 	
-	private String[] functions = new String[]{"Help", "Settings", "Lock", "Unlock", "Set"};
+	private static final String[] functions = new String[]{"Cycle", "Help", "Settings", "Lock", "Unlock", "Set"};
 
 	private Buttons() {
 		//usable ascii characters range
@@ -30,40 +27,46 @@ public class Buttons{
 			String character = String.valueOf((char)i);
 			
 			if (Pattern.matches("[a-z]", character)) {
-				JButton temp = new JButton(character);
-				temp.addActionListener(new ButtonListener());
-				LCPanel.add(temp);
-				continue;
+				LCPanel.add(createButton(character));
 			}
 			
 			if (Pattern.matches("[A-Z]", character)) {
-				JButton temp = new JButton(character);
-				temp.addActionListener(new ButtonListener());
-				UCPanel.add(temp);
-				continue;
+				UCPanel.add(createButton(character));
 			}
-			
+
 			if (Pattern.matches("\\d", character)) {
-				JButton temp = new JButton(character);
-				temp.addActionListener(new ButtonListener());
-				NPanel.add(temp);
-				continue;
+				NPanel.add(createButton(character));
+			} else {
+				SPanel.add(createButton(character));
 			}
-			
-			JButton temp = new JButton(character);
-			temp.addActionListener(new ButtonListener());
-			SPanel.add(temp);
 		}
 		
 		for (int i = 0; i < functions.length; i++) {
-			JButton temp = new JButton(functions[i]);
-			temp.addActionListener(new ButtonListener());
-			FPanel.add(temp);
+			FPanel.add(createButton(functions[i]));
 		}
+
+		UCPanel.setName("UCPanel");
+		LCPanel.setName("LCPanel");
+		SPanel.setName("SPanel");
+		NPanel.setName("NPanel");
+		FPanel.setName("FPanel");
 	}
-	
+
 	public static Buttons getInstance() {
+		if (buttons == null) buttons = new Buttons();
 		return buttons;
+	}
+
+	/**
+	 *
+	 * @param name name of the button
+	 * @return a JButton with the basic functionality
+	 */
+	public JButton createButton(String name) {
+		JButton button = new JButton(name);
+		button.setName(name);
+		button.addActionListener(new ButtonListener());
+		return button;
 	}
 
 	/**

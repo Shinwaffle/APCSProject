@@ -1,18 +1,14 @@
 package main;
 
-import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
-import main.Buttons;
+import java.awt.*;
 
-public class Main extends JFrame {
+public class Window extends JFrame {
 
-	private static Main main;
+	public static Window window;
 	private static final long serialVersionUID = 1L;
 	private final int WINDOW_WIDTH = 400;  // Width
 	private final int WINDOW_HEIGHT = 420; // Height
-
-	private JButton button_lock, button_unlock, button_set, test;
 
 	private JTextField textbox;
 	private JPanel panel1, panel2, panel3;
@@ -25,9 +21,9 @@ public class Main extends JFrame {
 	 *  Constructor
 	 */
 
-	public Main(){
+	private Window(){
 	
-		/**
+		/*
 		 * TODO:
 		 * update jlabel dynamically
 		 * insert the button input into the textfield
@@ -49,13 +45,9 @@ public class Main extends JFrame {
 		// Add a GridLayout manager to the content pane.
 		setLayout(new GridLayout(3, 1));
 
-		button_lock = new JButton("Lock");
-		button_unlock = new JButton("Unlock");
-		button_set = new JButton("Set");
 		textbox = new JTextField(33);
 		info = new JLabel("Eep!");
-		// Add an action listener to the button.
-		button_set.addActionListener(new ButtonListener());
+
 		// Create 3 panels.
 		panel1 = buttons.getUCPanel();
 		panel2 = buttons.getFPanel();
@@ -63,11 +55,6 @@ public class Main extends JFrame {
 
 		// Add the buttons to the panels.
 
-		panel2.add(button_lock);
-		panel2.add(button_unlock);
-		panel2.add(button_set);
-		button_lock.setEnabled(false);
-		button_unlock.setEnabled(false);
 		panel3.add(new JPanel().add(info));
 		panel3.add(textbox);
 		// Add the panels to the content pane.
@@ -78,28 +65,31 @@ public class Main extends JFrame {
 		// Display the window.
 		setVisible(true);
 	}
-	
-	public static Main getInstance() {
-		return main;
+
+	public void cyclePanels() {
+		String name = panel1.getName();
+
+		if (name.equals("UCPanel")) {
+			remove(panel1);
+			validate();
+			panel1 = buttons.getLCPanel();
+			validate();
+		}
 	}
 	
 	public void setTextField(String character) {
 		if (textbox.getText().length() >= 3) return; 
-		textbox.setText(new StringBuilder(
-				textbox.getText())
-				.append(character)
-				.toString()
-				);
+		textbox.setText(textbox.getText() + character);
 	}
-	
+
 	/**
-	 *  The main method creates an instance of the
+	 *  The window method creates an instance of the
 	 *  GridPanelwindow class, causing it to display
-	 *  its window. 
+	 *  its window.
 	 */
 
 	public static void main(String[] args)
 	{
-		main = new Main();
+		window = new Window();
 	}
 }
