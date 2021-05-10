@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Window extends JFrame {
 
-    public static Window window;
+    public static Window window; //todo consider putting final here 
     private static final long serialVersionUID = 1L;
     private final int WINDOW_WIDTH = 520;  // Width
     private final int WINDOW_HEIGHT = 430; // Height
@@ -60,9 +60,9 @@ public class Window extends JFrame {
         info = new JLabel("Eep! Set a code!");
         inputPanel.add(new JPanel().add(info));
         inputPanel.add(textbox);
-		/*
-			this looks horrible but I don't feel like messing with layout managers
-		 */
+		    /*
+			   * this looks horrible but I don't feel like messing with layout managers
+		     */
         JLabel title = new JLabel(
                 "                                Combination Lock by Hubert Mazur                             "
         );
@@ -80,6 +80,10 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
+    /*
+     * whenever "Set" is pressed, this method is called
+     * It will go through a bunch of conditions to check if it's able to set a "new" code
+     */
     public void setSecret() {
         if (textbox.getText().isEmpty()) {
             info.setText("Enter a code you dummy!");
@@ -93,6 +97,7 @@ public class Window extends JFrame {
 
         if (isSet && textbox.getText().equals(Secret)) {
             info.setText("Replaced code with new one!");
+            clearInfoTextField();
             return;
         }
 
@@ -102,7 +107,10 @@ public class Window extends JFrame {
         clearInfoTextField();
         mechanism.getComponent(0).setEnabled(true);
     }
-
+    /*
+     * by default, the "lock" button is disabled unless setSecret was successfully able to 
+     * set a new code. This also disabled the Lock and Set button again, while enabled the Unlock button
+     */
     public void setLocked() {
         info.setText("Enter code");
         clearInfoTextField();
@@ -110,7 +118,11 @@ public class Window extends JFrame {
         mechanism.getComponent(1).setEnabled(true);
         set.getComponent(1).setEnabled(false);
     }
-
+    
+    /*
+     * by default, the "unlock" button is disabled unless setLocked was called.
+     * Once the user inputs the correct code, Lock and Set are enabled while Unlock is disabled.
+     */
     public void setUnlocked() {
         if (textbox.getText().equals(Secret)) {
             clearInfoTextField();
@@ -159,22 +171,26 @@ public class Window extends JFrame {
         inputPadPanel.setVisible(true);
     }
 
+    /**
+     * add to textfield
+     */
     public void addToTextField(String character) {
         if (textbox.getText().length() < 3) {
             textbox.setText(textbox.getText() + character);
         }
     }
 
+    /**
+     * function used to clear the textbox
+     */
     public void clearInfoTextField() {
         textbox.setText("");
     }
 
     /**
-     * The window method creates an instance of the
-     * GridPanelwindow class, causing it to display
-     * its window.
-     */
-
+    * an instance of window to kickstart the process
+    * the only time window is accessed and set as something
+    */
     public static void main(String[] args) {
         window = new Window();
     }

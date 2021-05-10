@@ -85,7 +85,9 @@ public class Buttons {
     }
 
     /**
-     * helper function for constructor to reduce verbosity
+     * helper function to create a button with basic functionality
+     * basic functionality includes an action listener and a "name"
+     * name is what will be showcased on the button and set as internally
      *
      * @param name name of the button
      * @return a JButton with the basic functionality
@@ -98,6 +100,9 @@ public class Buttons {
     }
 
 
+    /**
+     * return panel based on given String, else return null
+     */
     public JPanel getPanel(String panelName) {
         if (panelName.equals("UCPanel")) {
             return getUCPanel();

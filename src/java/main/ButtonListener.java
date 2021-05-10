@@ -1,11 +1,13 @@
 package main;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ButtonListener extends JFrame implements ActionListener {
+public class ButtonListener implements ActionListener {
 
+    /**
+     * Gets the button that was pressed and determines what to do with it
+     */
     public void actionPerformed(ActionEvent e) {
         Window window = Window.window;
         String eventName = e.getActionCommand();
