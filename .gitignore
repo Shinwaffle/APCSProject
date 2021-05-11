@@ -9,3 +9,6 @@
 META-INF
 *.MF
 *.jar
+
+#Exclude replit
+.replit
