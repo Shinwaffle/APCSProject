@@ -3,12 +3,15 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author hubmazur
+ *
+ * The main Window to display the ComboLock
+ */
 public class Window extends JFrame {
 
-    public static Window window;
+    private static Window window; //keep as uninitialized to avoid any double window problems
     private static final long serialVersionUID = 1L;
-    private final int WINDOW_WIDTH = 520;  // Width
-    private final int WINDOW_HEIGHT = 430; // Height
 
     private final JTextField textbox;
     private JPanel inputPadPanel;
@@ -18,21 +21,26 @@ public class Window extends JFrame {
     private final JPanel mechanism;
     private final JPanel set;
 
-    private final Buttons buttons = Buttons.getInstance();
-    private String Secret = "";
+    private final transient Buttons buttons = Buttons.getInstance();//this program technically getting serialized right?
+    private String secret = "";
     private boolean isSet = false;
 
 
     /**
-     * The window itself
+     * Constructor to create the window for the user to interact on.
+     *
+     * The window is the program, once closed the entire application will close. It also not resizable, so the user
+     * does not make the window look ugly by resizing it to awkward proportions. It also allows me to use JLabels in a
+     * horrible way.
+     *
+     * The constructor creates everything besides the buttons. This includes the JTextField and JLabels.
      */
     private Window() {
 
         super("Combination Lock");
 
-        setBackground(Color.black);
         setResizable(false);
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setSize(520, 430);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new GridLayout(4, 1));
 
@@ -60,8 +68,9 @@ public class Window extends JFrame {
         info = new JLabel("Eep! Set a code!");
         inputPanel.add(new JPanel().add(info));
         inputPanel.add(textbox);
+
 		/*
-			this looks horrible but I don't feel like messing with layout managers
+		this looks horrible but I don't feel like messing with layout managers
 		 */
         JLabel title = new JLabel(
                 "                                Combination Lock by Hubert Mazur                             "
@@ -80,6 +89,13 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Sets the "Secret" of the lock after passing a bunch of conditionals.
+     *
+     * Although the user is provided buttons to input text into the info text-field, the user can avoid them entirely
+     * and enter text themselves via direct input (keyboard). This is checked alongside other states in the text-field
+     * to view a message to the user to inform them.
+     */
     public void setSecret() {
         if (textbox.getText().isEmpty()) {
             info.setText("Enter a code you dummy!");
@@ -91,18 +107,24 @@ public class Window extends JFrame {
             return;
         }
 
-        if (isSet && textbox.getText().equals(Secret)) {
+        if (isSet && textbox.getText().equals(secret)) {
             info.setText("Replaced code with new one!");
+            clearInfoTextField();
             return;
         }
 
         isSet = true;
-        Secret = textbox.getText();
+        secret = textbox.getText();
         info.setText("New code set!");
         clearInfoTextField();
         mechanism.getComponent(0).setEnabled(true);
     }
 
+    /**
+     * Sets the lock as "Locked", restricting the user from setting a new code or locking it again.
+     *
+     * Once the lock is locked, it restricts other actions relating to the lock by disabling them.
+     */
     public void setLocked() {
         info.setText("Enter code");
         clearInfoTextField();
@@ -111,8 +133,14 @@ public class Window extends JFrame {
         set.getComponent(1).setEnabled(false);
     }
 
+    /**
+     * If the input equals the Secret, it "unlocks" the lock and allowing the user to lock it again or set a new code.
+     *
+     * If the user doesn't input the correct Secret, the user will simply be informed. If it equals the Secret,
+     * Lock and Set are enabled once again and Unlock is disabled.
+     */
     public void setUnlocked() {
-        if (textbox.getText().equals(Secret)) {
+        if (textbox.getText().equals(secret)) {
             clearInfoTextField();
             mechanism.getComponent(0).setEnabled(true);
             mechanism.getComponent(1).setEnabled(false);
@@ -124,8 +152,9 @@ public class Window extends JFrame {
     }
 
     /**
-     * used by ButtonListener to signal the window to
-     * go to the next panel of characters
+     * Function to change the inputPadPanel to the "next" inputPadPanel in a set sequence.
+     * The sequence is as follows: Upper Case, Lower Case, "Special" (?!.,'"[] etc.), Numbers.
+     * This function calls replacePanels to properly remove the current panel and place the next one in sequence.
      */
     public void cyclePanels() {
         String name = inputPadPanel.getName();
@@ -145,7 +174,7 @@ public class Window extends JFrame {
     }
 
     /**
-     * helper function for cyclePanels to reduce verbosity
+     * Helper function used by cyclePanels to replace panels.
      *
      * @param replacement name of the panel
      */
@@ -159,20 +188,43 @@ public class Window extends JFrame {
         inputPadPanel.setVisible(true);
     }
 
+    /**
+     * Function used to add a character to the JTextField info
+     *
+     * @param character character to input into the JTextField info
+     */
     public void addToTextField(String character) {
         if (textbox.getText().length() < 3) {
             textbox.setText(textbox.getText() + character);
         }
     }
 
+    /**
+     * Simply clears the info textfield.
+     */
     public void clearInfoTextField() {
         textbox.setText("");
     }
 
     /**
-     * The window method creates an instance of the
-     * GridPanelwindow class, causing it to display
-     * its window.
+     * Convenience function for other classes to use to access the window instance.
+     *
+     * This method is mostly used by the ButtonListener class to relay what buttons are being input and handling
+     * them accordingly.
+     *
+     * @return the window instance
+     */
+    public static Window getWindow() {
+        return window;
+    }
+
+    /**
+     * Main method to create a new Window instance, in turn initializing the main window.
+     *
+     * Although making this class a Singleton class would be ideal, setting the window field as null would cause some
+     * complications. I guess this class would still be considered a Singleton but without the whole null part.
+     *
+     * @param args arguments which won't be used whatsoever.
      */
 
     public static void main(String[] args) {

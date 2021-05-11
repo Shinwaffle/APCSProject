@@ -4,10 +4,16 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @author hubmazur
+ *
+ * Handles button input and uses the appropriate methods provided by the Window class.
+ */
 public class ButtonListener extends JFrame implements ActionListener {
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-        Window window = Window.window;
+        Window window = Window.getWindow();
         String eventName = e.getActionCommand();
 
         if (eventName.length() == 1) {

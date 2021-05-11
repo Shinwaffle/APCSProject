@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author hubmazur
- * <p>
+ *
  * Singleton class for returning panels with buttons alongside logic
  */
 public class Buttons {
@@ -22,6 +22,13 @@ public class Buttons {
     private final String[] functions = new String[]
             {"Help", "Settings", "Cycle", "Lock", "Unlock", "Clear", "Set"};
 
+    /**
+     * Constructs the various private panels with appropriate symbols.
+     *
+     * The constructor converts the index of the for loop into a char which will correspond
+     * to those seen on the ASCII table. Anything before 33 and 126 aren't necessarily a "character" such as
+     * an "A" or a "/".
+     */
     private Buttons() {
         //usable ascii characters range
         for (int i = 33; i < 127; i++) {
@@ -48,6 +55,18 @@ public class Buttons {
 
     }
 
+    /**
+     * <p>Initializes the "FPanel" which contains buttons that allow the user to view different input panels,
+     * "lock" and "unlock", set new codes, and so on.
+     * </p><p>
+     * The FPanel has it's own layout, being one row and 3 columns. These columns are named for easier use. The left is
+     * named "util", middle "mechanism", and right "set". The names that are set for what panel is hard coded but in
+     * the next section it's assumed the functions String[] array hasn't been changed.
+     * </p><p>
+     * util is used for utility actions, such as cycling character panels and viewing the "Help" and "Settings" windows.
+     * mechanism is used for the "Lock" and "Unlock" buttons. set is used for the "Set" and "Clear" buttons.
+     * </p>
+     */
     private void initFPanel() {
         FPanel.setLayout(new GridLayout(1, 3));
 
@@ -78,17 +97,11 @@ public class Buttons {
         FPanel.add(set);
     }
 
-
-    public static Buttons getInstance() {
-        if (buttons == null) buttons = new Buttons();
-        return buttons;
-    }
-
     /**
-     * helper function for constructor to reduce verbosity
+     * Helper function to create buttons basic functionality
      *
-     * @param name name of the button
-     * @return a JButton with the basic functionality
+     * @param name name to give the button; internally and externally
+     * @return a JButton with a listener, and using name an internal name and display name
      */
     private JButton createButton(String name) {
         JButton button = new JButton(name);
@@ -97,7 +110,13 @@ public class Buttons {
         return button;
     }
 
-
+    /**
+     * Function to get a panel by using a parameter
+     *
+     * @param panelName Name of the panel to return, case sensitive
+     * @return a JPanel corresponding to panelName.
+     *         Returns an empty JPanel if panelName can't match an existing panel.
+     */
     public JPanel getPanel(String panelName) {
         if (panelName.equals("UCPanel")) {
             return getUCPanel();
@@ -114,8 +133,8 @@ public class Buttons {
         if (panelName.equals("FPanel")) {
             return getFPanel();
         }
-        System.out.println("Buttons - We have returned a null panel!");
-        return null;
+
+        return new JPanel();
     }
 
     /**
@@ -153,5 +172,12 @@ public class Buttons {
         return FPanel;
     }
 
+    /**
+     * @return an instance of Buttons
+     */
+    public static Buttons getInstance() {
+        if (buttons == null) buttons = new Buttons();
+        return buttons;
+    }
 
 }
