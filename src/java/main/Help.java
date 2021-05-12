@@ -13,11 +13,13 @@ public class Help extends JFrame {
     private static Help help = null;
 
     public Help() {
+
         super("Help");
 
         setAlwaysOnTop(true);
         requestFocus();
-        setSize(1000, 1000);
+        setResizable(false);
+        setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setLayout(new GridLayout(1, 1));
         add(new JLabel("test"));

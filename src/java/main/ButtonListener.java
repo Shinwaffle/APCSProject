@@ -22,6 +22,9 @@ public class ButtonListener extends JFrame implements ActionListener {
         if (eventName.equals("Help")) {
             Help help = Help.getInstance().showHelp();
         }
+        if (eventName.equals("Settings")) {
+            Settings settings = Settings.getInstance().showSettings();
+        }
         if (eventName.equals("Cycle")) {
             window.cyclePanels();
         }
