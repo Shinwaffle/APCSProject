@@ -58,7 +58,7 @@ public class Window extends JFrame {
         mechanism = (JPanel) functionPadPanel.getComponent(1);
         set = (JPanel) functionPadPanel.getComponent(2);
 
-        util.getComponent(0).setEnabled(false);
+        util.getComponent(0).setEnabled(true);
         util.getComponent(1).setEnabled(false);
 
         mechanism.getComponent(0).setEnabled(false);

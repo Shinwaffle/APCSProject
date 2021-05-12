@@ -19,6 +19,9 @@ public class ButtonListener extends JFrame implements ActionListener {
         if (eventName.length() == 1) {
             window.addToTextField(eventName);
         }
+        if (eventName.equals("Help")) {
+            Help help = Help.getInstance().showHelp();
+        }
         if (eventName.equals("Cycle")) {
             window.cyclePanels();
         }
