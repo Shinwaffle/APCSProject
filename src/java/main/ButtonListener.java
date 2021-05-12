@@ -23,7 +23,7 @@ public class ButtonListener extends JFrame implements ActionListener {
             window.cyclePanels();
         }
         if (eventName.equals("Clear")) {
-            window.clearInfoTextField();
+            window.clearTextField();
         }
         if (eventName.equals("Set")) {
             window.setSecret();

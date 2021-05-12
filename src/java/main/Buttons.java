@@ -56,7 +56,7 @@ public class Buttons {
     }
 
     /**
-     * <p>Initializes the "FPanel" which contains buttons that allow the user to view different input panels,
+     * <p>Initializes the "FPanel" which contains buttons that allow the user to view different input buttons,
      * "lock" and "unlock", set new codes, and so on.
      * </p><p>
      * The FPanel has it's own layout, being one row and 3 columns. These columns are named for easier use. The left is

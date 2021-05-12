@@ -109,14 +109,14 @@ public class Window extends JFrame {
 
         if (isSet && textbox.getText().equals(secret)) {
             info.setText("Replaced code with new one!");
-            clearInfoTextField();
+            clearTextField();
             return;
         }
 
         isSet = true;
         secret = textbox.getText();
         info.setText("New code set!");
-        clearInfoTextField();
+        clearTextField();
         mechanism.getComponent(0).setEnabled(true);
     }
 
@@ -127,7 +127,7 @@ public class Window extends JFrame {
      */
     public void setLocked() {
         info.setText("Enter code");
-        clearInfoTextField();
+        clearTextField();
         mechanism.getComponent(0).setEnabled(false);
         mechanism.getComponent(1).setEnabled(true);
         set.getComponent(1).setEnabled(false);
@@ -141,7 +141,7 @@ public class Window extends JFrame {
      */
     public void setUnlocked() {
         if (textbox.getText().equals(secret)) {
-            clearInfoTextField();
+            clearTextField();
             mechanism.getComponent(0).setEnabled(true);
             mechanism.getComponent(1).setEnabled(false);
             set.getComponent(1).setEnabled(true);
@@ -202,7 +202,7 @@ public class Window extends JFrame {
     /**
      * Simply clears the info textfield.
      */
-    public void clearInfoTextField() {
+    public void clearTextField() {
         textbox.setText("");
     }
 
