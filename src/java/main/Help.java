@@ -26,7 +26,7 @@ public class Help extends JFrame {
     }
 
     /**
-     * @return the Help instance
+     * @return the {@code Help} instance
      */
     public static Help getInstance() {
         if (help == null) help = new Help();
@@ -34,13 +34,14 @@ public class Help extends JFrame {
     }
 
     /**
-     * Shows the window, return the Help instance so it can be used alongside <code>getInstance</code> in one line
+     * Shows the window, return the Help instance so it can be used alongside
+     * {@code getInstance} in one line
      *
-     * @return the help instance
+     * @return the {@code Help} instance
      */
     public Help showHelp() {
         help.setVisible(true);
-        return help;
+        return this;
     }
 
 }

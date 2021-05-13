@@ -15,9 +15,10 @@ public class ButtonListener extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Window window = Window.getWindow();
         String eventName = e.getActionCommand();
+        Secret secret = Secret.getInstance();
 
         if (eventName.length() == 1) {
-            window.addToTextField(eventName);
+            secret.addToTextField(eventName);
         }
         if (eventName.equals("Help")) {
             Help help = Help.getInstance().showHelp();
@@ -29,16 +30,16 @@ public class ButtonListener extends JFrame implements ActionListener {
             window.cyclePanels();
         }
         if (eventName.equals("Clear")) {
-            window.clearInfoTextField();
+            secret.clearInfoTextField();
         }
         if (eventName.equals("Set")) {
-            window.setSecret();
+            secret.setSecret();
         }
         if (eventName.equals("Lock")) {
-            window.setLocked();
+            secret.setLocked();
         }
         if (eventName.equals("Unlock")) {
-            window.setUnlocked();
+            secret.setUnlocked();
         }
     }
 }

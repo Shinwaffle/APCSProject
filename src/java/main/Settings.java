@@ -3,6 +3,11 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author hubmazur
+ *
+ * Singleton Settings which is a window to allow the user to change the behavior of the window
+ */
 public class Settings extends JFrame {
     
     private static Settings settings = null;
@@ -20,7 +25,7 @@ public class Settings extends JFrame {
     }
 
     /**
-     * @return the settings instance
+     * @return the {@code Settings} instance
      */
     public static Settings getInstance() {
         if (settings == null) settings = new Settings();
@@ -28,12 +33,13 @@ public class Settings extends JFrame {
     }
 
     /**
-     * Shows the window, return the settings instance so it can be used alongside <code>getInstance</code> in one line
+     * Shows the window, return the {@code Settings} instance so it can be used alongside
+     * {@code getInstance} in one line
      *
-     * @return the settings instance
+     * @return the {@code Settings} instance
      */
     public Settings showSettings() {
         settings.setVisible(true);
-        return settings;
+        return this;
     }
 }

@@ -101,7 +101,7 @@ public class Buttons {
      * Helper function to create buttons basic functionality
      *
      * @param name name to give the button; internally and externally
-     * @return a JButton with a listener, and using name an internal name and display name
+     * @return a {@code JButton} with a listener, and using name an internal name and display name
      */
     private JButton createButton(String name) {
         JButton button = new JButton(name);
@@ -114,7 +114,7 @@ public class Buttons {
      * Function to get a panel by using a parameter
      *
      * @param panelName Name of the panel to return, case sensitive
-     * @return a JPanel corresponding to panelName.
+     * @return a {@code JPanel} corresponding to panelName.
      *         Returns an empty JPanel if panelName can't match an existing panel.
      */
     public JPanel getPanel(String panelName) {
@@ -173,7 +173,7 @@ public class Buttons {
     }
 
     /**
-     * @return an instance of Buttons
+     * @return the {@code Buttons} instance
      */
     public static Buttons getInstance() {
         if (buttons == null) buttons = new Buttons();

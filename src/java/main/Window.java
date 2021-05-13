@@ -10,21 +10,18 @@ import java.awt.*;
  */
 public class Window extends JFrame {
 
-    private static Window window; //keep as uninitialized to avoid any double window problems
+    private static Window window;
     private static final long serialVersionUID = 1L;
 
     private final JTextField textbox;
-    private JPanel inputPadPanel;
     private final JLabel info;
+    private JPanel inputPadPanel;
 
     private final JPanel util;
     private final JPanel mechanism;
     private final JPanel set;
 
     private final transient Buttons buttons = Buttons.getInstance();//this program technically getting serialized right?
-    private String secret = "";
-    private boolean isSet = false;
-
 
     /**
      * Constructor to create the window for the user to interact on.
@@ -89,67 +86,7 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Sets the "Secret" of the lock after passing a bunch of conditionals.
-     *
-     * Although the user is provided buttons to input text into the info text-field, the user can avoid them entirely
-     * and enter text themselves via direct input (keyboard). This is checked alongside other states in the text-field
-     * to view a message to the user to inform them.
-     */
-    public void setSecret() {
-        if (textbox.getText().isEmpty()) {
-            info.setText("Enter a code you dummy!");
-            return;
-        }
 
-        if (textbox.getText().length() != 3) {
-            info.setText("Code must be 3 characters long!");
-            return;
-        }
-
-        if (isSet && textbox.getText().equals(secret)) {
-            info.setText("Replaced code with new one!");
-            clearInfoTextField();
-            return;
-        }
-
-        isSet = true;
-        secret = textbox.getText();
-        info.setText("New code set!");
-        clearInfoTextField();
-        mechanism.getComponent(0).setEnabled(true);
-    }
-
-    /**
-     * Sets the lock as "Locked", restricting the user from setting a new code or locking it again.
-     *
-     * Once the lock is locked, it restricts other actions relating to the lock by disabling them.
-     */
-    public void setLocked() {
-        info.setText("Enter code");
-        clearInfoTextField();
-        mechanism.getComponent(0).setEnabled(false);
-        mechanism.getComponent(1).setEnabled(true);
-        set.getComponent(1).setEnabled(false);
-    }
-
-    /**
-     * If the input equals the Secret, it "unlocks" the lock and allowing the user to lock it again or set a new code.
-     *
-     * If the user doesn't input the correct Secret, the user will simply be informed. If it equals the Secret,
-     * Lock and Set are enabled once again and Unlock is disabled.
-     */
-    public void setUnlocked() {
-        if (textbox.getText().equals(secret)) {
-            clearInfoTextField();
-            mechanism.getComponent(0).setEnabled(true);
-            mechanism.getComponent(1).setEnabled(false);
-            set.getComponent(1).setEnabled(true);
-            info.setText("Welcome!");
-        } else {
-            info.setText("Incorrect code!");
-        }
-    }
 
     /**
      * Function to change the inputPadPanel to the "next" inputPadPanel in a set sequence.
@@ -189,21 +126,31 @@ public class Window extends JFrame {
     }
 
     /**
-     * Function used to add a character to the JTextField info
-     *
-     * @param character character to input into the JTextField info
+     * @return the {@code JTextField} textbox
      */
-    public void addToTextField(String character) {
-        if (textbox.getText().length() < 3) {
-            textbox.setText(textbox.getText() + character);
-        }
+    public JTextField getTextbox() {
+        return textbox;
     }
 
     /**
-     * Simply clears the info textfield.
+     * @return the {@code JLabel} info
      */
-    public void clearInfoTextField() {
-        textbox.setText("");
+    public JLabel getInfo() {
+        return info;
+    }
+
+    /**
+     * @return the {@code JPanel} set
+     */
+    public JPanel getSet() {
+        return set;
+    }
+
+    /**
+     * @return the {@code JPanel} mechanism
+     */
+    public JPanel getMechanism() {
+        return mechanism;
     }
 
     /**
@@ -212,7 +159,7 @@ public class Window extends JFrame {
      * This method is mostly used by the ButtonListener class to relay what buttons are being input and handling
      * them accordingly.
      *
-     * @return the window instance
+     * @return the {@code Window} instance
      */
     public static Window getWindow() {
         return window;
@@ -224,7 +171,7 @@ public class Window extends JFrame {
      * Although making this class a Singleton class would be ideal, setting the window field as null would cause some
      * complications. I guess this class would still be considered a Singleton but without the whole null part.
      *
-     * @param args arguments which won't be used whatsoever.
+     * @param args arguments which won't be used whatsoever in this app. Might be used in the future tho
      */
 
     public static void main(String[] args) {

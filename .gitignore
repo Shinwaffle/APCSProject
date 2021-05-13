@@ -6,7 +6,6 @@
 *.iml
 
 # Exclude any artifact stuff
-META-INF
 *.MF
 *.jar
 
